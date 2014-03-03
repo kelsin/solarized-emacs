@@ -64,6 +64,11 @@ Also affects `linum-mode' background."
   :type 'boolean
   :group 'solarized)
 
+(defcustom solarized-use-256-terminal-colors t
+  "Use the 256 color pallete when the terminal supports it."
+  :type 'boolean
+  :group 'solarized)
+
 (defcustom solarized-height-minus-1 0.8
   "Font size -1."
   :type 'number
@@ -89,55 +94,66 @@ Also affects `linum-mode' background."
   :type 'number
   :group 'solarized)
 
+(defun solarized-pick-color (hex term &optional eight)
+  "Picks a hex or terminal colors depending on window system and cutomized options"
+  (if window-system
+      hex
+    (case (display-color-cells)
+      (16 term)
+      (8 (if eight eight term))
+      (otherwise (if solarized-use-256-terminal-colors
+                     hex
+                   term)))))
+
 (defun create-solarized-theme (variant theme-name &optional childtheme)
   "Create a VARIANT of the theme named THEME-NAME.
 
 When optional argument CHILDTHEME function is supplied it's invoked to further
 customize the resulting theme."
-  (let* ((class '((class color) (min-colors 89)))
+  (let* ((class '((class color)))
          ;; Solarized palette
-         (s-base03    "#002b36")
-         (s-base02    "#073642")
+         (s-base03    (solarized-pick-color "#002b36" "brightblack" "black"))
+         (s-base02    (solarized-pick-color "#073642" "black"))
          ;; emphasized content
-         (s-base01    "#586e75")
+         (s-base01    (solarized-pick-color "#586e75" "brightgreen" "green"))
          ;; primary content
-         (s-base00    "#657b83")
-         (s-base0     "#839496")
+         (s-base00    (solarized-pick-color "#657b83" "brightyellow" "yellow"))
+         (s-base0     (solarized-pick-color "#839496" "brightblue" "blue"))
          ;; comments
-         (s-base1     "#93a1a1")
+         (s-base1     (solarized-pick-color "#93a1a1" "brightcyan" "cyan"))
          ;; background highlight light
-         (s-base2     "#eee8d5")
+         (s-base2     (solarized-pick-color "#eee8d5" "white"))
          ;; background light
-         (s-base3     "#fdf6e3")
+         (s-base3     (solarized-pick-color "#fdf6e3" "brightwhite" "white"))
 
          ;; Solarized accented colors
-         (yellow    "#b58900")
-         (orange    "#cb4b16")
-         (red       "#dc322f")
-         (magenta   "#d33682")
-         (violet    "#6c71c4")
-         (blue      "#268bd2")
-         (cyan      "#2aa198")
-         (green     "#859900")
+         (yellow    (solarized-pick-color "#b58900" "yellow"))
+         (orange    (solarized-pick-color "#cb4b16" "orange"))
+         (red       (solarized-pick-color "#dc322f" "red"))
+         (magenta   (solarized-pick-color "#d33682" "magenta"))
+         (violet    (solarized-pick-color "#6c71c4" "violet"))
+         (blue      (solarized-pick-color "#268bd2" "blue"))
+         (cyan      (solarized-pick-color "#2aa198" "cyan"))
+         (green     (solarized-pick-color "#859900" "green"))
 
          ;; Darker and lighter accented colors
          ;; Only use these in exceptional circumstances!
-         (yellow-d  "#7B6000")
-         (yellow-l  "#DEB542")
-         (orange-d  "#8B2C02")
-         (orange-l  "#F2804F")
-         (red-d     "#990A1B")
-         (red-l     "#FF6E64")
-         (magenta-d "#93115C")
-         (magenta-l "#F771AC")
-         (violet-d  "#3F4D91")
-         (violet-l  "#9EA0E5")
-         (blue-d    "#00629D")
-         (blue-l    "#69B7F0")
-         (cyan-d    "#00736F")
-         (cyan-l    "#69CABF")
-         (green-d   "#546E00")
-         (green-l   "#B4C342")
+         (yellow-d  (solarized-pick-color "#7B6000" "yellow"))
+         (yellow-l  (solarized-pick-color "#DEB542" "yellow"))
+         (orange-d  (solarized-pick-color "#8B2C02" "orange"))
+         (orange-l  (solarized-pick-color "#F2804F" "orange"))
+         (red-d     (solarized-pick-color "#990A1B" "red"))
+         (red-l     (solarized-pick-color "#FF6E64" "red"))
+         (magenta-d (solarized-pick-color "#93115C" "magenta"))
+         (magenta-l (solarized-pick-color "#F771AC" "magenta"))
+         (violet-d  (solarized-pick-color "#3F4D91" "violet"))
+         (violet-l  (solarized-pick-color "#9EA0E5" "violet"))
+         (blue-d    (solarized-pick-color "#00629D" "blue"))
+         (blue-l    (solarized-pick-color "#69B7F0" "blue"))
+         (cyan-d    (solarized-pick-color "#00736F" "cyan"))
+         (cyan-l    (solarized-pick-color "#69CABF" "cyan"))
+         (green-d   (solarized-pick-color "#546E00" "green"))
+         (green-l   (solarized-pick-color "#B4C342" "green"))
 
          ;; Solarized palette names, use these instead of -fg -bg...
          (base0 (if (eq variant 'light) s-base00 s-base0))
