@@ -1272,6 +1272,19 @@ customize the resulting theme."
      `(popup-scroll-bar-foreground-face ((,class (:background ,base1))))
      `(popup-tip-face ((,class (:background ,base02 :foreground ,base0))))
 
+     ;; powerline
+     `(powerline-yellow ((,class (:inherit mode-line :background ,yellow :foreground ,base3 :weight normal))))
+     `(powerline-orange ((,class (:inherit mode-line :background ,orange :foreground ,base3 :weight normal))))
+     `(powerline-red ((,class (:inherit mode-line :background ,red :foreground ,base3 :weight normal))))
+     `(powerline-magenta ((,class (:inherit mode-line :background ,magenta :foreground ,base3 :weight normal))))
+     `(powerline-violet ((,class (:inherit mode-line :background ,violet :foreground ,base3 :weight normal))))
+     `(powerline-blue ((,class (:inherit mode-line :background ,blue :foreground ,base3 :weight normal))))
+     `(powerline-cyan ((,class (:inherit mode-line :background ,cyan :foreground ,base3 :weight normal))))
+     `(powerline-green ((,class (:inherit mode-line :background ,green :foreground ,base3 :weight normal))))
+     `(powerline-grey1 ((,class (:inherit mode-line :background ,base1 :foreground ,base3 :weight normal))))
+     `(powerline-grey2 ((,class (:inherit mode-line :background ,base00 :foreground ,base3 :weight normal))))
+     `(powerline-grey3 ((,class (:inherit mode-line :background ,base02 :foreground ,base01 :weight normal))))
+
      ;; rainbow-blocks
      `(rainbow-blocks-depth-1-face ((,class (:foreground ,cyan))))
      `(rainbow-blocks-depth-2-face ((,class (:foreground ,yellow))))
